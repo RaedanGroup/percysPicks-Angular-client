@@ -27,7 +27,7 @@
   
     &:hover {
       background-color: red;
-      animation: flashText 0.25s infinite;
+      animation: flashText 0.35s infinite;
     }
   
     &:active {
@@ -134,29 +134,30 @@ form {
 }
 
 .no-favorites-placeholder {
-  background-color: white; // Set the background color to white
-  border-radius: 8px; // Optional: rounded corners for a card-like appearance
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: adds a subtle shadow to mimic a card
-  padding: 20px; // Add some padding inside the card
-  text-align: center; // Center the text inside the card
-  max-width: 600px; // Set a max width for the card
-  margin: 20px auto; // Center the card horizontally within its parent
-  display: flex; // Use flexbox for internal alignment
-  flex-direction: column; // Stack flex items vertically
-  justify-content: center; // Center the items vertically (useful if you add more content)
-  align-items: center; // Center the items horizontally
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   mat-icon {
-    color: #D32F2F; // Change the heart icon color to something visible on white background
-    vertical-align: middle; // Align icon vertically with the text
-    margin-right: 5px; // Optional: add some space between the icon and the text
+    color: #703030;
+    vertical-align: middle;
+    margin-right: 5px;
   }
 
   a {
-    color: #1976D2; // Style the link color (consider matching your app's theme)
-    text-decoration: none; // Remove underline from link
+    color: #1976D2;
+    text-decoration: underline;
+    font-weight: bold;
     &:hover {
-      text-decoration: underline; // Add underline on hover for better UX
+      text-decoration: underline;
     }
   }
 }
