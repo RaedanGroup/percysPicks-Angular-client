@@ -1,5 +1,7 @@
 # Percys Picks - Angular Client
 
+> Currently hosted on [GitHub Pages](https://raedangroup.github.io/percysPicks-Angular-client/welcome).
+
 "Percy's Picks" is a single-page application (SPA) developed with Angular, showcasing a catalog of movies. Users can view movie details, explore genres and directors, and curate a list of their favorite movies.
 
 ## Features
