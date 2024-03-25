@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
+import { AuthService } from './auth.service';
 import { DirectorInfoComponent } from './director-info/director-info.component';
 import { GenreInfoComponent } from './genre-info/genre-info.component';
 import { MovieCardComponent } from './movie-card/movie-card.component';
@@ -29,8 +30,8 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
 const appRoutes: Routes = [
   { path: 'welcome', component: WelcomePageComponent },
-  { path: 'movies', component: MovieCardComponent },
-  { path: 'profile', component: UserProfileComponent},
+  { path: 'movies', component: MovieCardComponent, canActivate: [AuthService] },
+  { path: 'profile', component: UserProfileComponent, canActivate: [AuthService] },
   { path: '', redirectTo: 'welcome', pathMatch: 'prefix' },
 ];
 
@@ -63,6 +64,7 @@ const appRoutes: Routes = [
     MatToolbarModule,
     RouterModule.forRoot(appRoutes),
   ],
+  exports: [RouterModule],
   providers: [
     provideAnimationsAsync()
   ],
