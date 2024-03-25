@@ -1,4 +1,4 @@
-// src/app/movie-card/movie-card.component.ts
+// ./src/app/movie-card/movie-card.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,26 +26,86 @@ export class MovieCardComponent {
     public snackBar: MatSnackBar,
     ) { }
 
-  ngOnInit(): void {
-    this.getMovies();
-    this.getFavoriteMovies();
-  }
-
-  getMovies(): void {
-    this.fetchApiData.getAllMovies().subscribe((resp: any) => {
-      this.movies = resp;
-      console.log(this.movies);
-      console.log('username:' + localStorage['username'] + ' favorite movies: ' + this.favoriteMovies);
-      return this.movies;
-    });
-  }
-
-  getFavoriteMovies(): void { 
-    this.user = this.fetchApiData.getUser(this.userData.username);
-    this.userData.favoriteMovies = this.user.FavoriteMovies;
-    this.favoriteMovies = this.user.FavoriteMovies;
-    console.log('Fav Movies in getFavMovie', this.favoriteMovies); 
-  }
+    ngOnInit(): void {
+      this.getMovies();
+      this.getFavoriteMovies();
+    }
+    
+    getMovies(): void {
+      this.fetchApiData.getAllMovies().subscribe((resp: any) => {
+        this.movies = resp;
+        // Check if localStorage item exists before parsing
+        const userItem = localStorage.getItem('user');
+        if (userItem) {
+          const user = JSON.parse(userItem);
+          console.log('username: ' + user.username + ' favorite movies: ' + user.favoriteMovies.join(', '));
+        } else {
+          console.log('User not found in localStorage.');
+        }
+        return this.movies;
+      });
+    }
+    
+    getFavoriteMovies(): void {
+      // Check if localStorage item exists before parsing
+      const userItem = localStorage.getItem('user');
+      if (userItem) {
+        const user = JSON.parse(userItem);
+        if (user.favoriteMovies && user.favoriteMovies.length) {
+          // Directly use favoriteMovies from the user object stored in localStorage
+          this.favoriteMovies = user.favoriteMovies;
+          console.log('Fav Movies in getFavMovie', this.favoriteMovies);
+        } else {
+          console.log('No favorite movies found or user is not logged in.');
+        }
+      } else {
+        console.log('User not found in localStorage for favorite movies.');
+      }
+    }
+    
+    isFavoriteMovie(movieId: string): boolean {
+      const userItem = localStorage.getItem('user');
+      if (userItem) {
+        const user = JSON.parse(userItem);
+        // Check against IDs in the user's favoriteMovies list
+        return user.favoriteMovies.includes(movieId);
+      }
+      return false;
+    }    
+    
+    toggleFavorite(movieId: string): void {
+      const userItem = localStorage.getItem('user');
+      if (userItem) {
+        const user = JSON.parse(userItem);
+        const username = user.username; 
+        const movie = this.movies.find(m => m._id === movieId);
+        if (!movie) {
+          console.error('Movie not found');
+          return;
+        }
+        const movieTitle = movie.Title; // Now you have the title for API calls
+        const isFavorite = user.favoriteMovies.includes(movieId);
+    
+        if (isFavorite) {
+          // Remove from favorites using the title
+          this.fetchApiData.removeFavoriteMovie(username, movieTitle).subscribe(response => {
+            console.log("Removed from favorites:", response);
+            const index = user.favoriteMovies.indexOf(movieId);
+            if (index > -1) {
+              user.favoriteMovies.splice(index, 1); // Update local favorites list
+              localStorage.setItem('user', JSON.stringify(user));
+            }
+          }, error => console.error(error));
+        } else {
+          // Add to favorites using the title
+          this.fetchApiData.addFavoriteMovie(username, movieTitle).subscribe(response => {
+            console.log("Added to favorites:", response);
+            user.favoriteMovies.push(movieId); // Update local favorites list
+            localStorage.setItem('user', JSON.stringify(user));
+          }, error => console.error(error));
+        }
+      }
+    }
 
   getDirectorInfo(name: string, bio: string, birth: string, death: string): void {
     this.matDialog.open(DirectorInfoComponent, {

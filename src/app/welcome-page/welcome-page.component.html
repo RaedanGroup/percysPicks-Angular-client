@@ -1,15 +1,21 @@
-<div class="main-page">
-  <h1>
-    Welcome to Percy's Picks!
-  </h1>
+<div class="welcome-page">
+  <img src="assets/images/logo_percysPicks_v02.jpg" alt="Percy's Picks Logo" class="welcome-page-image" style="height: 300px; width: auto;">
+  <div class="button-container">
+    <button
+      mat-raised-button
+      class="login-button"
+      style="background-color: #703030; color: white;"
+      (click)="openUserLoginDialog()">
+        Login
+    </button>
 
-  <button mat-raised-button (click)="openUserRegistrationDialog()" color="primary" style="margin-right: 10px;">
-    Sign Up
-  </button>
+    <button
+      mat-raised-button
+      class="register-button"
+      style="background-color: #7E827A; color: white;"
+      (click)="openUserRegistrationDialog()">
+        Sign Up
+    </button>
 
-  <button
-    mat-raised-button (click)="openUserLoginDialog()" color="primary" style="margin-right: 10px;">
-    Login
-  </button>
-
+  </div>
 </div>

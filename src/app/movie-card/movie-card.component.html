@@ -1,22 +1,26 @@
-<div style="display: flex;">
-  <mat-card *ngFor="let movie of movies;" style="flex: 1 1 auto;">
-      <mat-card-header>
-        <mat-card-title>{{movie.Title}}</mat-card-title>
-        <mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle>
-      </mat-card-header>
-      <img src={{movie.ImagePath}} alt= {{movie.Title}} />
-      <mat-card-actions>
-        <button mat-button color="primary" (click)="getGenreInfo(movie.Genre.Name, movie.Genre.Description)" >
-            Genre
+<app-navbar></app-navbar>
+<div class="movie-card-container">
+  <mat-card *ngFor="let movie of movies;" class="movie-card">
+    <div class="movie-container">
+      <img mat-card-image src={{movie.ImagePath}} alt= {{movie.Title}} />
+      <mat-card-actions class="movie-info-container">
+        <button mat-button (click)="getGenreInfo(movie.Genre.Name, movie.Genre.Description)" >
+          Genre
         </button>
-        <button mat-button color="primary" (click)="getDirectorInfo(movie.Director.Name, movie.Director.Bio,movie.Director.Birth,movie.Director.Death)" >
-            Director
+        <button mat-button (click)="getDirectorInfo(movie.Director.Name, movie.Director.Bio,movie.Director.Birth,movie.Director.Death)" >
+          Director
         </button>
-        <button mat-button color="primary" (click)="getMovieInfo(movie.Title, movie.Description)" >
-            Synopsis
+        <button mat-button (click)="getMovieInfo(movie.Title, movie.Description)" >
+          Synopsis
         </button>
-        <button mat-icon>
-            </button>
       </mat-card-actions>
+    </div>
+    <mat-card-header class="card-header">
+      <mat-card-title class="card-title">{{movie.Title}}</mat-card-title>
+      <mat-card-subtitle>Directed by: {{movie.Director.Name}}</mat-card-subtitle>
+      <button mat-icon-button class="fixed-position-button" (click)="toggleFavorite(movie._id)" [ngClass]="{'favorite': isFavoriteMovie(movie._id)}">
+        <mat-icon aria-label="Favorite toggle">{{ isFavoriteMovie(movie._id) ? 'favorite' : 'favorite_border' }}</mat-icon>
+      </button>
+    </mat-card-header>
   </mat-card>
 </div>

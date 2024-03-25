@@ -1,1 +1,56 @@
-<p>user-profile works!</p>
+<!-- .src/app/user-profile/user-profile.component.html -->
+<app-navbar></app-navbar>
+<div class="user-profile-container">
+  <div class="user-profile-card">
+    <h2>User Profile</h2>
+    <p><strong>Username:</strong> {{user.username}}</p>
+    <p><strong>Email:</strong> {{user.email}}</p>
+    <p><strong>Birthday:</strong> {{user.birthday | date}}</p>
+    <hr>
+    <h3>Update Profile</h3>
+    <form (submit)="updateUser()">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" [(ngModel)]="user.username" name="username">
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="user.email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="birthday">Birthday:</label>
+        <input type="date" id="birthday" [(ngModel)]="user.birthday" name="birthday">
+      </div>
+      <button type="submit">Update Profile</button>
+    </form>
+  </div>
+  <hr>
+  <h2 style="color: #d3d8cd; margin-left: 20px;">Favorite Movies</h2>
+  <div class="movies-grid">
+    <div *ngFor="let movie of favoriteMoviesDetails" class="movie-item">
+      <hr>
+      <h4>{{movie.Title}}</h4>
+      <hr>
+      <img [src]="movie.ImagePath" [alt]="movie.Title">
+      <div class="movie-info-container">
+        <button mat-raised-button (click)="getGenreInfo(movie.Genre.Name, movie.Genre.Description)" >
+          Genre
+        </button>
+        <button mat-raised-button (click)="getDirectorInfo(movie.Director.Name, movie.Director.Bio,movie.Director.Birth,movie.Director.Death)" >
+          Director
+        </button>
+        <button mat-raised-button (click)="getMovieInfo(movie.Title, movie.Description)" >
+          Synopsis
+        </button>
+      </div>
+      <hr>
+      <div class="drop-button">
+        <button mat-raised-button (click)="removeFavorite(movie._id)">
+          Remove from Favorites
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
