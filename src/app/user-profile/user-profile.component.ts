@@ -5,6 +5,8 @@ import { DirectorInfoComponent } from '../director-info/director-info.component'
 import { GenreInfoComponent } from '../genre-info/genre-info.component';
 import { MovieInfoComponent } from '../movie-info/movie-info.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class UserProfileComponent implements OnInit {
   favoriteMoviesDetails: any[] = [];
   originalUsername: string = '';
 
-  constructor(private fetchApiData: FetchApiDataService, public matDialog: MatDialog,) {}
+  constructor(private fetchApiData: FetchApiDataService, public matDialog: MatDialog, private router: Router, public snackBar: MatSnackBar) {}
   
 
   ngOnInit(): void {
@@ -43,20 +45,42 @@ export class UserProfileComponent implements OnInit {
       // Include updated fields here
       email: this.user.email,
       birthday: this.user.birthday,
-      // Assuming you allow changing the username, include the new username
       username: this.user.username,
-      // Include other fields as necessary
     }).subscribe(response => {
       console.log("User updated successfully:", response);
       // Upon successful update, update the originalUsername in case the username was changed
       this.originalUsername = this.user.username;
       // Update localStorage or handle as needed
       localStorage.setItem('user', JSON.stringify(this.user));
-      // Optionally, show a success message
     }, error => {
       console.error("Error updating user:", error);
-      // Handle error
     });
+  }
+
+  deleteUser(): void {
+    const confirmation = confirm('Are you sure you want to delete your account? This action cannot be undone.');
+  
+    if (confirmation) {
+      this.fetchApiData.deleteUser(this.originalUsername).subscribe({
+        next: (responseText) => { // Now directly handling the response text
+          console.log( responseText);
+          this.snackBar.open( responseText , 'OK', {
+            duration: 2000
+          });
+          this.logoutUser(); // Proceed with logout and cleanup
+        },
+        error: (error) => {
+          console.error("Error deleting user account:", error);
+        }
+      });
+    }
+  }  
+  
+  logoutUser(): void {
+    // Clear local storage or any other sign-out logic
+    localStorage.clear();
+    // Redirect to the welcome or login page
+    this.router.navigate(['/welcome']);
   }
 
   getAllMovies(): void {

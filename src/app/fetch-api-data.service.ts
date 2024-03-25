@@ -11,8 +11,7 @@ const apiUrl = 'https://percys-picks-a2286948842a.herokuapp.com/';
   providedIn: 'root'
 })
 export class FetchApiDataService {
-  // Inject the HttpClient module to the constructor params
- // This will provide HttpClient to the entire class, making it available via this.http
+
   constructor(private http: HttpClient) {
   }
  // Making the api call for the user registration endpoint
@@ -153,12 +152,12 @@ export class FetchApiDataService {
   public deleteUser(username: any): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.delete(apiUrl + `users/${username}`, {
-    headers: new HttpHeaders({
+      headers: new HttpHeaders({
         Authorization: 'Bearer ' + token,
-    }),
+      }),
+      responseType: 'text'  // Expect a text response
     }).pipe(
-    map(this.extractResponseData),
-    catchError(this.handleError)
+      catchError(this.handleError)
     );
   }
 
