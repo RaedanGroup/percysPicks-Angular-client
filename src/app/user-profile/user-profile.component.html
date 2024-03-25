@@ -28,31 +28,42 @@
   </div>
   <hr>
   <h2 style="color: #d3d8cd; margin-left: 20px;">Favorite Movies</h2>
-  <div class="movies-grid">
-    <div *ngFor="let movie of favoriteMoviesDetails" class="movie-item">
-      <hr>
-      <h4>{{movie.Title}}</h4>
-      <hr>
-      <img [src]="movie.ImagePath" [alt]="movie.Title">
-      <div class="movie-info-container">
-        <button mat-raised-button (click)="getGenreInfo(movie.Genre.Name, movie.Genre.Description)" >
-          Genre
-        </button>
-        <button mat-raised-button (click)="getDirectorInfo(movie.Director.Name, movie.Director.Bio,movie.Director.Birth,movie.Director.Death)" >
-          Director
-        </button>
-        <button mat-raised-button (click)="getMovieInfo(movie.Title, movie.Description)" >
-          Synopsis
-        </button>
+  <div *ngIf="favoriteMoviesDetails.length > 0; else noFavorites" class="movies-grid">
+    <div class="movies-grid">
+      <div *ngFor="let movie of favoriteMoviesDetails" class="movie-item">
+        <hr>
+        <h4>{{movie.Title}}</h4>
+        <hr>
+        <img [src]="movie.ImagePath" [alt]="movie.Title">
+        <div class="movie-info-container">
+          <button mat-raised-button (click)="getGenreInfo(movie.Genre.Name, movie.Genre.Description)" >
+            Genre
+          </button>
+          <button mat-raised-button (click)="getDirectorInfo(movie.Director.Name, movie.Director.Bio,movie.Director.Birth,movie.Director.Death)" >
+            Director
+          </button>
+          <button mat-raised-button (click)="getMovieInfo(movie.Title, movie.Description)" >
+            Synopsis
+          </button>
+        </div>
+        <hr>
+        <div class="drop-button">
+          <button mat-raised-button (click)="removeFavorite(movie._id)">
+            Remove from Favorites
+          </button>
+        </div>
       </div>
-      <hr>
-      <div class="drop-button">
-        <button mat-raised-button (click)="removeFavorite(movie._id)">
-          Remove from Favorites
-        </button>
-      </div>
+    
     </div>
   </div>
+  <ng-template #noFavorites>
+    <div class="no-favorites-placeholder">
+      <p>Add favorite movies by clicking the heart 
+        <mat-icon>favorite</mat-icon> icons in the 
+        <a routerLink="/movies">Movies</a> list.
+      </p>
+    </div>
+  </ng-template>
 </div>
 
 

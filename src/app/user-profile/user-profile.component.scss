@@ -133,7 +133,33 @@ form {
     font-size: small;
 }
 
+.no-favorites-placeholder {
+  background-color: white; // Set the background color to white
+  border-radius: 8px; // Optional: rounded corners for a card-like appearance
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Optional: adds a subtle shadow to mimic a card
+  padding: 20px; // Add some padding inside the card
+  text-align: center; // Center the text inside the card
+  max-width: 600px; // Set a max width for the card
+  margin: 20px auto; // Center the card horizontally within its parent
+  display: flex; // Use flexbox for internal alignment
+  flex-direction: column; // Stack flex items vertically
+  justify-content: center; // Center the items vertically (useful if you add more content)
+  align-items: center; // Center the items horizontally
 
+  mat-icon {
+    color: #D32F2F; // Change the heart icon color to something visible on white background
+    vertical-align: middle; // Align icon vertically with the text
+    margin-right: 5px; // Optional: add some space between the icon and the text
+  }
+
+  a {
+    color: #1976D2; // Style the link color (consider matching your app's theme)
+    text-decoration: none; // Remove underline from link
+    &:hover {
+      text-decoration: underline; // Add underline on hover for better UX
+    }
+  }
+}
 
 
 

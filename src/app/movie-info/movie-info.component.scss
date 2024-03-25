@@ -3,10 +3,12 @@
   margin-bottom: 15px;
   align-items: center;
   justify-content: center;
+  padding-top: 20px;
+  // for outside of flexbox use
+  margin: 0 auto;
 }
 .movie-info-body {
-  margin-right: 5px;
-  margin-left: 5px;
+  margin: 0 30px;
   justify-content: center;
   line-height: 30px;
 }
