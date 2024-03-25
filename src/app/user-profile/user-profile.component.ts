@@ -48,6 +48,9 @@ export class UserProfileComponent implements OnInit {
       username: this.user.username,
     }).subscribe(response => {
       console.log("User updated successfully:", response);
+      this.snackBar.open( 'Profile Updated Succesfully' , 'OK', {
+        duration: 2000
+      });
       // Upon successful update, update the originalUsername in case the username was changed
       this.originalUsername = this.user.username;
       // Update localStorage or handle as needed
